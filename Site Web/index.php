@@ -294,10 +294,13 @@
 		}	
 		</script>		
       <footer class="row mx-auto tm-footer">
-        <div class="col-md-6 px-0">
+        <div class="col-md-4 px-0">
             &copy; Copyrights 2021. All Rights Reserved
         </div>
-        <div class="col-md-6 px-0 tm-footer-right">
+        <div class="col-md-4 px-0 tm-footer-right">
+          <a rel="sponsored" href="pdf/CGU.pdf" target="_blank" class="tm-link-white">Conditions Générales d'Utilisation</a>
+        </div>
+        <div class="col-md-4 px-0 tm-footer-right">
           Designed by <a rel="sponsored" href="https://souhaibazzouz.github.io/portfolio/" target="_blank" class="tm-link-white">Souhaïb Azzouz</a>
         </div>
       </footer>
