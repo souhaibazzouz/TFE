@@ -8,16 +8,16 @@
     <link rel="shortcut icon" href="img/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/slick.css" type="text/css" /> 
+    <link rel="stylesheet" href="css/slick.css" type="text/css" />
     <link rel="stylesheet" href="css/templatemo-style.css">
     <link rel="stylesheet" href="css/leaflet.css" />
     <script src="js/leaflet.js"></script>
 
 </head>
 <body>
-    <video autoplay muted loop id="bg-video">
-        <source src="video/space.mp4" type="video/mp4">
-    </video>
+    <picture id="bg-video">
+        <img src="img/space.JPG" alt="MDN">
+    </picture>
     <div class="page-container">
       <div class="container-fluid">
         <div class="row">
@@ -28,7 +28,9 @@
                     <img src="img/logo.png" height="50" alt="Computer Hope"> 2Par
                 </div>
 				<div class="h-25 d-inline-block">
-					<button type="button" class="btn btn-sm btn-outline-light py-0" id="vidbutton">Background Video: Pause</button>
+					<button type="button"
+                            class="btn btn-sm btn-outline-light py-0"
+                            onclick="location.href='php/login.php'">Administrateur</button>
 				</div>
                   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-supported-content" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -82,7 +84,7 @@
                   </p>
                 </div>
                 <div class="intro-right"><br><br><br>
-                  <img src="img/home-img-1.jpg"  width="300" alt="Image" class="img-fluid intro-img-1">
+                  <img src="img/home-img-1.jpg" width="300" alt="Image" class="img-fluid intro-img-1">
                   <img src="img/home-img-0.jpg" width="300" alt="Image" class="img-fluid intro-img-2">
                 </div>
                 <div class="circle intro-circle-1"></div>
@@ -98,7 +100,7 @@
 				<?php
 					include 'php/database.php';
 					$conn = OpenCon();
-					foreach($conn->query("SELECT * FROM parking WHERE name='EPHEC' ORDER BY id DESC LIMIT 0, 1") as $row){
+					foreach($conn->query("SELECT * FROM parking WHERE name='EPHEC' ORDER BY idParking DESC LIMIT 0, 1") as $row){
 						$name = $row["name"];
 						$adress = $row["adress"];
 						$tot_slot = $row["tot_slot"];
@@ -124,18 +126,6 @@
                     maxZoom: 20,
                     subdomains:['mt0','mt1','mt2','mt3']
                   }).addTo(mymap);
-
-                  function onMapClick(e) {
-                    popup
-                            .setLatLng(e.latlng)
-                            .setContent("Il n'y a pas de parking connu à l'emplacement <b>"
-                                    + e.latlng.lat.toString()
-                                    + ", "
-                                    + e.latlng.lng.toString()
-                                    + "</b>."
-                            )
-                            .openOn(mymap);
-                  }
 
                   mymap.on('click', onMapClick);
                 </script>
@@ -278,21 +268,6 @@
         </ul>
     </div>
     <div class="container-fluid">
-		<script>
-		var ppbutton = document.getElementById("vidbutton");
-		ppbutton.addEventListener("click", playPause);
-		myVideo = document.getElementById("bg-video");
-		function playPause() { 
-			if (myVideo.paused) {
-				myVideo.play();
-				ppbutton.innerHTML = "Backgroud Video: Pause";
-				}
-			else  {
-				myVideo.pause(); 
-				ppbutton.innerHTML = "Backgroud Video: Play";
-				}
-		}	
-		</script>		
       <footer class="row mx-auto tm-footer">
         <div class="col-md-4 px-0">
             &copy; Copyrights 2021. All Rights Reserved
@@ -306,6 +281,7 @@
       </footer>
     </div>
   </div>
+  <!-- Preloader, https://ihatetomatoes.net/create-custom-preloading-screen/ -->
   <div id="loader-wrapper">            
     <div id="loader"></div>
     <div class="loader-section section-left"></div>
