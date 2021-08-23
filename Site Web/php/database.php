@@ -1,11 +1,11 @@
 <?php
 function OpenCon()
  {
-	$user = 'root';
-	$password = '';
+	$user = '*******';
+	$password = '*******';
 
 	try{
-		$db = new PDO ('mysql:host=localhost;dbname=c1641721c_2par', $user, $password);
+		$db = new PDO ('mysql:host=*******;dbname=*******', $user, $password);
 	}catch(PDOException $e){
 		print "Erreur:".$e->getMessage()."<br/>";
 		die;
