@@ -5,7 +5,7 @@ try {
     $host = '*******';
     $utilisateur = '*******';
     $motDePasse = '*******';
-    $port='3306';
+    $port='****';
     $dns = 'mysql:host='.$host .';dbname='.$dbName.';port='.$port;
     $conn = new PDO( $dns, $utilisateur, $motDePasse );
 } catch ( Exception $e ) {

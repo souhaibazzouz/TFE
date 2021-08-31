@@ -41,10 +41,18 @@ if (isset($_POST['username']) && isset($_POST['full_name']) && isset($_POST['ema
         } else{
             try{
                 $sql2 = "INSERT INTO admin (full_name, username, email, password) VALUES ('$full_name', '$username', '$email', '$password')";
-                $conn->exec($sql2);
-                header("Location: signup.php?success=Your account has been created successfully");
+                $alpha = $conn->exec($sql2);
+
+                if ($alpha){
+                    $insert_parking_statut = "INSERT INTO `statuta_admin` (`dateChangement`, `idAdmin`, `idStatutA`) VALUES (current_timestamp(), LAST_INSERT_ID(),'1');";
+                    $conn->exec($insert_parking_statut);
+                    header("Location: signup.php?success=Vous avez crée votre compte parfaitement");
+
+                }else{
+                    header("Location: signup.php?error=Une erreur inconnue est survenue lors de l'ajout du statut du compte");
+                }
             }catch(PDOException $e) {
-                header("Location: signup.php?error=Unknown error occurred&$user_data");
+                header("Location: signup.php?error=Une erreur inconnue est survenue lors de l'ajout du compte");
             }
         }
     }

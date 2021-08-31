@@ -667,11 +667,11 @@ border-top-color: #f9c922; /* Chrome, Opera 15+, Safari 5+ */ animation: spin 1.
 
 .map-responsive{
     overflow:hidden;
-    padding-bottom:50%;
+    padding-bottom:56.25%;
     position:relative;
     height:0;
 }
-.map-responsive iframe{
+.map-responsive script{
     left:0;
     top:0;
     height:100%;
@@ -689,4 +689,14 @@ border-top-color: #f9c922; /* Chrome, Opera 15+, Safari 5+ */ animation: spin 1.
 
 .lienCreate:hover{
     text-decoration: underline;
+}
+
+.command {
+    padding: 4px 6px;
+    background: white;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    min-width: 200px;
 }

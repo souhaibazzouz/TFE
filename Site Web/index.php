@@ -13,6 +13,38 @@
     <link rel="stylesheet" href="css/leaflet.css" />
     <script src="js/leaflet.js"></script>
 
+    <!-- Load Leaflet from CDN -->
+    <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+            integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+            crossorigin=""
+    />
+    <script
+            src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+            integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+            crossorigin=""
+    ></script>
+
+    <!-- Load Esri Leaflet from CDN -->
+    <script
+            src="https://unpkg.com/esri-leaflet@2.3.3/dist/esri-leaflet.js"
+            integrity="sha512-cMQ5e58BDuu1pr9BQ/eGRn6HaR6Olh0ofcHFWe5XesdCITVuSBiBZZbhCijBe5ya238f/zMMRYIMIIg1jxv4sQ=="
+            crossorigin=""
+    ></script>
+
+    <!-- Load Esri Leaflet Geocoder from CDN -->
+    <link
+            rel="stylesheet"
+            href="https://unpkg.com/esri-leaflet-geocoder@2.3.2/dist/esri-leaflet-geocoder.css"
+            integrity="sha512-IM3Hs+feyi40yZhDH6kV8vQMg4Fh20s9OzInIIAc4nx7aMYMfo+IenRUekoYsHZqGkREUgx0VvlEsgm7nCDW9g=="
+            crossorigin=""
+    />
+    <script
+            src="https://unpkg.com/esri-leaflet-geocoder@2.3.2/dist/esri-leaflet-geocoder.js"
+            integrity="sha512-8twnXcrOGP3WfMvjB0jS5pNigFuIWj4ALwWEgxhZ+mxvjF5/FBPVd5uAxqT8dd2kUmTVK9+yQJ4CmTmSg/sXAQ=="
+            crossorigin=""
+    ></script>
 </head>
 <body>
     <picture id="bg-video">
@@ -96,40 +128,127 @@
           </li>
           <li data-page-no="2">
               <div class="mx-auto page-width-2">
-                <div class="map-responsive" id="mapid"></div>
-				<?php
-					include 'php/database.php';
-					$conn = OpenCon();
-					foreach($conn->query("SELECT * FROM parking WHERE name='EPHEC' ORDER BY idParking DESC LIMIT 0, 1") as $row){
-						$name = $row["name"];
-						$adress = $row["adress"];
-						$tot_slot = $row["tot_slot"];
-						$empty_slot = $row["empty_slot"];
-						$date = $row["date"];
-					}
-					$conn = null;
-				?>
-                <script>
-                  var mymap = L.map('mapid').setView([50.666985, 4.611713], 14);
-                  var marker = L.marker([50.665799, 4.611490]).addTo(mymap);
-                  marker.bindPopup("<b>Parking "
-				  +<?php echo json_encode($name); ?>
-				  +" "+<?php echo json_encode($adress); ?>
-				  +"</b><br>"+<?php echo json_encode($empty_slot); ?>
-				  +" places restantes sur "
-				  +<?php echo json_encode($tot_slot); ?>
-				  +"<br><br><h10><small>"+<?php echo json_encode($date); ?>
-				  +"</small></h10>").openPopup();
-                  var popup = L.popup();
+                  <div class="h-25 d-inline-block">
+                      <div class="d-inline d-none d-md-block">
+                          <button type="button"
+                                  class="btn btn-sm btn-outline-primary py-0"
+                                  onclick="location.href='php/add_park.php'">Ajouter un parking</button>
+                      </div>
+                  </div>
+                  <div class="map-responsive text-dark" id="mapid">
+                      <div id="map"></div>
+                        <?php
+                        include 'php/database.php';
+                        $conn = OpenCon();
+                        foreach($conn->query("SELECT * FROM parking WHERE name='EPHEC' ORDER BY idParking DESC LIMIT 0, 1") as $row){
+                            $nameEPHEC = $row["name"];
+                            $adressEPHEC = $row["adress"];
+                            $latEPHEC = $row["latCoor"];
+                            $lngEPHEC = $row["lngCoor"];
+                            $tot_slotEPHEC = $row["tot_slot"];
+                            $empty_slotEPHEC = $row["empty_slot"];
+                            $dateEPHEC = $row["date"];
+                        }
 
-                  L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
-                    maxZoom: 20,
-                    subdomains:['mt0','mt1','mt2','mt3']
-                  }).addTo(mymap);
+                        foreach($conn->query("SELECT * FROM parking WHERE name='ISJB' ORDER BY idParking DESC LIMIT 0, 1") as $row){
+                            $nameISJB = $row["name"];
+                            $adressISJB = $row["adress"];
+                            $latISJB = $row["latCoor"];
+                            $lngISJB = $row["lngCoor"];
+                            $tot_slotISJB = $row["tot_slot"];
+                            $empty_slotISJB = $row["empty_slot"];
+                            $dateISJB = $row["date"];
+                        }
 
-                  mymap.on('click', onMapClick);
-                </script>
-            </div>
+                        foreach($conn->query("SELECT * FROM parking WHERE name='WALIBI' ORDER BY idParking DESC LIMIT 0, 1") as $row){
+                            $nameWALIBI = $row["name"];
+                            $adressWALIBI = $row["adress"];
+                            $latWALIBI= $row["latCoor"];
+                            $lngWALIBI = $row["lngCoor"];
+                            $tot_slotWALIBI = $row["tot_slot"];
+                            $empty_slotWALIBI = $row["empty_slot"];
+                            $dateWALIBI = $row["date"];
+                        }
+                        $conn = null;
+                        ?>
+                        <script>
+                            var parkingIcon = L.icon({
+                                iconUrl: 'img/parking.png',
+
+                                iconSize:     [38, 50], // size of the icon
+                                iconAnchor:   [10, 50], // point of the icon which will correspond to marker's location
+                                popupAnchor:  [9, -50] // point from which the popup should open relative to the iconAnchor
+                            });
+
+                            var mymap = L.map('mapid').setView([0.0, 0.0], 1);
+                            var markerEphec = L.marker([<?php echo json_encode($latEPHEC); ?>, <?php echo json_encode($lngEPHEC); ?>], {icon: parkingIcon}).addTo(mymap);
+                            markerEphec.bindPopup("<b>Parking "
+                                +<?php echo json_encode($nameEPHEC); ?>
+                                +" "+<?php echo json_encode($adressEPHEC); ?>
+                                +"</b><br>"+<?php echo json_encode($empty_slotEPHEC); ?>
+                                +" places restantes sur "
+                                +<?php echo json_encode($tot_slotEPHEC); ?>
+                                +"<br><br><h10><small>"+<?php echo json_encode($dateEPHEC); ?>
+                                +"</small></h10>");
+
+                            var markerISJB = L.marker([<?php echo json_encode($latISJB); ?>, <?php echo json_encode($lngISJB); ?>], {icon: parkingIcon}).addTo(mymap);
+                            markerISJB.bindPopup("<b>Parking "
+                                +<?php echo json_encode($nameISJB); ?>
+                                +" "+<?php echo json_encode($adressISJB); ?>
+                                +"</b><br>"+<?php echo json_encode($empty_slotISJB); ?>
+                                +" places restantes sur "
+                                +<?php echo json_encode($tot_slotISJB); ?>
+                                +"<br><br><h10><small>"+<?php echo json_encode($dateISJB); ?>
+                                +"</small></h10>");
+
+                            var markerWALIBI = L.marker([<?php echo json_encode($latWALIBI); ?>, <?php echo json_encode($lngWALIBI); ?>], {icon: parkingIcon}).addTo(mymap);
+                            markerWALIBI.bindPopup("<b>Parking "
+                                +<?php echo json_encode($nameWALIBI); ?>
+                                +" "+<?php echo json_encode($adressWALIBI); ?>
+                                +"</b><br>"+<?php echo json_encode($empty_slotWALIBI); ?>
+                                +" places restantes sur "
+                                +<?php echo json_encode($tot_slotWALIBI); ?>
+                                +"<br><br><h10><small>"+<?php echo json_encode($dateWALIBI); ?>
+                                +"</small></h10>");
+
+                            L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+                                maxZoom: 20,
+                                subdomains:['mt0','mt1','mt2','mt3'],
+                            }).addTo(mymap);
+
+                            const searchControl = L.esri.Geocoding.geosearch().addTo(mymap);
+                            const results = L.layerGroup().addTo(mymap);
+
+
+                            let markers = [];
+                            searchControl.on("results", function (data) {
+                                markers = [];
+                                results.clearLayers();
+                                mymap.setView([0.0, 0.0], 1)
+                                // several results as several towns with same name (like)
+                                for (var i = data.results.length - 1; i >= 0; i--) {
+                                    const result = data.results[i];
+                                    const marker = L.marker(result.latlng);
+                                    markers = [...markers, L.marker(marker)];
+                                    results.addLayer(marker);
+                                    marker.on("click", addRadius);
+                                }
+                            });
+
+                            function addRadius(marker, radius = 500) {
+                                const circle = L.circle([marker.latlng.lat, marker.latlng.lng], {radius,});
+                                circle.addTo(mymap);
+                                setTimeout(() => {
+                                    mymap.setZoom(15);
+                                    mymap.setView([marker.latlng.lat, marker.latlng.lng])
+
+                                }, 100);
+                            }
+
+                            mymap.on('click', onMapClick);
+                        </script>
+                  </div>
+              </div>
           </li>
           <li data-page-no="3" class="px-3">
             <div class="row">

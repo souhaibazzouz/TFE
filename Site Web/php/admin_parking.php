@@ -1,36 +1,36 @@
 <?php
-    session_start();
-    include 'db_conn.php';
-    include 'database.php';
+session_start();
+include 'db_conn.php';
+include 'database.php';
 
-    $alpha = $_SESSION['user_id'];
-    $conn = OpenCon();
+$alpha = $_SESSION['user_id'];
+$conn = OpenCon();
 
-    foreach($conn->query("SELECT * FROM statuta_admin WHERE idAdmin='$alpha'") as $row){
-            $id_statut_admin = $row["idStatutA"];
-        }
+foreach($conn->query("SELECT * FROM statuta_admin WHERE idAdmin='$alpha'") as $row){
+    $id_statut_admin = $row["idStatutA"];
+}
 
-    if (isset($_SESSION['user_id']) && (isset($_SESSION['user_email']))) {
-?>
+if (isset($_SESSION['user_id']) && (isset($_SESSION['user_email']))) {
+    ?>
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2PAR</title>
-    <link rel="shortcut icon" href="../img/logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/slick.css" type="text/css" />
-    <link rel="stylesheet" href="../css/templatemo-style.css">
-    <link rel="stylesheet" href="../css/leaflet.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <script src="../js/leaflet.js"></script>
-</head>
-<body>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>2PAR</title>
+        <link rel="shortcut icon" href="../img/logo.png">
+        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../css/slick.css" type="text/css" />
+        <link rel="stylesheet" href="../css/templatemo-style.css">
+        <link rel="stylesheet" href="../css/leaflet.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+        <script src="../js/leaflet.js"></script>
+    </head>
+    <body>
     <picture id="bg-video">
         <img src="../img/space.JPG" alt="MDN">
     </picture>
@@ -54,11 +54,11 @@
                             </button>
                             <div class="collapse navbar-collapse" id="navbar-supported-content">
                                 <ul class="navbar-nav mb-2 mb-lg-0">
-                                    <li class="nav-item selected">
+                                    <li class="nav-item">
                                         <a class="nav-link" aria-current="page" href="admin.php" data-no="1">Admin</a>
                                         <div class="circle"></div>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item selected">
                                         <a class="nav-link" href="admin_parking.php" data-no="2">Parking</a>
                                         <div class="circle"></div>
                                     </li>
@@ -81,10 +81,10 @@
                 style="margin-top: -50px;font-size: 2rem; text-shadow: 2px 2px #000000;"><?=$_SESSION['user_full_name']?></h1>
         </div>
     </div>
-</body>
-</html>
-<?php
-    }else{
-        header('Location: login.php');
-    }
-    ?>
+    </body>
+    </html>
+    <?php
+}else{
+    header('Location: login.php');
+}
+?>
