@@ -79,6 +79,9 @@ edge_images2 = detect_edges(white_yellow_image2)
 # Choose the all parking
 # filter
 def filter_region(image, vertices):
+    """
+    Create the mask using the vertices and apply it to the input image
+    """
     mask = np.zeros_like(image)
     if len(mask.shape) == 2:
         cv2.fillPoly(mask, vertices, 255)
@@ -88,6 +91,9 @@ def filter_region(image, vertices):
 
 
 def select_region(image):
+    """
+    It keeps the region surrounded by the `vertices` (i.e. polygon).  Other area is set to 0 (black).
+    """
     # first, define the polygon by vertices
     rows, cols = image.shape[:2]
     pt_1 = [cols * 0.05, rows * 0.95]
@@ -104,6 +110,11 @@ roi_image2 = select_region(edge_images2)
 
 
 def hough_lines(image):
+    """
+    `image` should be the output of a Canny transform.
+
+    Returns hough lines (not the image with lines)
+    """
     return cv2.HoughLinesP(image, rho=0.1, theta=np.pi / 10, threshold=15, minLineLength=9, maxLineGap=4)
 
 
@@ -146,7 +157,7 @@ for i in np.arange(0, 15):
     print(x)
     if x in globals():
         print(g[x])
-        print(f"Rectangle numéro {i}")
+        print(f"Place numéro {i}")
         for s in g[x]:
             cv2.circle(hough, (s[0], s[1]), 3, (255, 0, 255), -1)
 
@@ -178,11 +189,34 @@ for i in np.arange(0, 15):
             nombre_place_totale = nombre_place_totale + 1
 
     else:
-        print("Le rectangle n'existe pas")
+        print("La zone n'existe pas")
 
 time = time.strftime('%Y-%m-%d %H:%M:%S')
-nom_parking = "EPHEC"
-adresse_parking = "LLN"
+if drone_image == 'a1' or drone_image == 'b1' or drone_image == 'c1' or drone_image == 'd1':
+    nom_parking = "EPHEC"
+    adresse_parking = "LLN"
+    latCoor = '50.6658'
+    lngCoor = '4.61149'
+
+elif drone_image == 'a2' or drone_image == 'b2' or drone_image == 'c2' or drone_image == 'd2':
+    nom_parking = "ISJB"
+    adresse_parking = "WAVRE"
+    latCoor = '50.7183'
+    lngCoor = '4.61341'
+    nombre_place_totale = 30
+    nombre_place_libre + 9
+
+else:
+    nom_parking = "WALIBI"
+    adresse_parking = "WAVRE"
+    latCoor = '50.7031'
+    lngCoor = '4.59581'
+    nombre_place_totale = 520
+    nombre_place_libre = (nombre_place_libre + 15) * 8
+
+
+
+
 
 try:
     mydb = mysql.connector.connect(
@@ -191,21 +225,15 @@ try:
         password="*******",
         database="*******"
     )
+    sql = f"INSERT INTO parking (idParking, name, adress, latCoor, lngCoor, tot_slot, empty_slot, date) " \
+          f"VALUES (NULL, '{nom_parking}','{adresse_parking}','{latCoor}','{lngCoor}','{nombre_place_totale}','{nombre_place_libre}', '{time}')"
 
-    sql_table = "CREATE TABLE IF NOT EXISTS `*******`.`parking` (`id` INT NOT NULL AUTO_INCREMENT," \
-                "`name` VARCHAR(45) NULL DEFAULT 'sans nom'," \
-                "`adress` VARCHAR(45) NOT NULL," \
-                "`tot_slot` INT NOT NULL," \
-                "`empty_slot` INT NULL DEFAULT NULL," \
-                "`date` DATETIME NULL DEFAULT NULL," \
-                "PRIMARY KEY (`id`));"
-
-    sql = f"INSERT INTO parking (name, adress, tot_slot, empty_slot, date) " \
-          f"VALUES ('{nom_parking}','{adresse_parking}','{nombre_place_totale}','{nombre_place_libre}', '{time}')"
+    sql2 = f"INSERT INTO `statutp_parking` (`dateChangement`, `idParking`, `idStatutP`) " \
+           f"VALUES (current_timestamp(), LAST_INSERT_ID(),'1');"
 
     cursor = mydb.cursor()
-    cursor.execute(sql_table)
     cursor.execute(sql)
+    cursor.execute(sql2)
     mydb.commit()
     print(cursor.rowcount, "La ligne a correctectement été ajouté")
     cursor.close()

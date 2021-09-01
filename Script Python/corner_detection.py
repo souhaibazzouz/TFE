@@ -6,8 +6,10 @@ gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 blur_gray = cv.GaussianBlur(gray, (5, 5), 0)
 blur_gray = np.float32(blur_gray)
 dst = cv.cornerHarris(blur_gray, 2, 3, 0.04)
+# result is dilated for marking the corners, not important
 dst = cv.dilate(dst, None)
 dst = cv.dilate(dst, None)
+# Threshold for an optimal value, it may vary depending on the image.
 img[dst > 0.15 * dst.max()] = [255, 0, 255]
 
 cv.imshow('img', img)
