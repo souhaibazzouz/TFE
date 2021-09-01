@@ -73,7 +73,6 @@ if (!isset($_SESSION['user_id']) && (!isset($_SESSION['user_email']))) {
                           class="form-control text-dark"
                           id="exampleInputPassword1">
                </div>
-               <a href="signup.php" class="lienCreate">Create an account</a>
                <button type="button"
                        class="btn btn-primary"
                        onclick="location.href='../index.php'">RETURN

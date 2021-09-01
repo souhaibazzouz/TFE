@@ -1,8 +1,17 @@
 <?php
 session_start();
+include 'db_conn.php';
+include 'database.php';
 
-if (!isset($_SESSION['user_id']) && (!isset($_SESSION['user_email']))) {
-    ?>
+$alpha = $_SESSION['user_id'];
+$conn = OpenCon();
+
+foreach($conn->query("SELECT * FROM statuta_admin WHERE idAdmin='$alpha'") as $row){
+    $id_statut_admin = $row["idStatutA"];
+}
+if ($id_statut_admin === '3') {
+    if (isset($_SESSION['user_id']) && (isset($_SESSION['user_email']))) {
+        ?>
 
 
     <!DOCTYPE html>
@@ -130,7 +139,6 @@ if (!isset($_SESSION['user_id']) && (!isset($_SESSION['user_email']))) {
                                    id="confirm">
                         </div>
                     </div>
-                    <a href="login.php" class="lienCreate">Already have an account?</a>
                     <button type="submit"
                             class="btn btn-primary btn-lg btn-block login-button">REGISTER
                     </button>
@@ -140,7 +148,10 @@ if (!isset($_SESSION['user_id']) && (!isset($_SESSION['user_email']))) {
     </div>
     </body>
     </html>
-    <?php
+        <?php
+    }else {
+        header('Location: login.php');
+    }
 }else{
     header('Location: admin.php');
 }

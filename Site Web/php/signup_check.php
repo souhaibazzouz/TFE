@@ -46,7 +46,7 @@ if (isset($_POST['username']) && isset($_POST['full_name']) && isset($_POST['ema
                 if ($alpha){
                     $insert_parking_statut = "INSERT INTO `statuta_admin` (`dateChangement`, `idAdmin`, `idStatutA`) VALUES (current_timestamp(), LAST_INSERT_ID(),'1');";
                     $conn->exec($insert_parking_statut);
-                    header("Location: signup.php?success=Vous avez crée votre compte parfaitement");
+                    header("Location: admin_client.php?success=Le compte a été parfaitement créé");
 
                 }else{
                     header("Location: signup.php?error=Une erreur inconnue est survenue lors de l'ajout du statut du compte");
